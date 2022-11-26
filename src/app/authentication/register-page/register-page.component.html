@@ -1,0 +1,50 @@
+<section class="flex h-screen w-full items-center justify-center">
+  <div class="flex w-96 flex-col items-center gap-12">
+    <h1 class="text-2xl text-gray-800">Create a new account.</h1>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="handleRegister()"
+      class="flex w-full flex-col gap-8"
+    >
+      <app-input
+        [group]="registerForm"
+        controlName="name"
+        placeholder="Enter your name"
+        label="Name"
+        [hasError]="checkError('name')"
+      ></app-input>
+
+      <app-input
+        [group]="registerForm"
+        controlName="email"
+        placeholder="Enter your email address"
+        label="Email address"
+        type="email"
+        [hasError]="checkError('email')"
+      ></app-input>
+
+      <app-input
+        [group]="registerForm"
+        controlName="password"
+        placeholder="Enter your "
+        label="Password"
+        type="password"
+        [hasError]="checkError('password')"
+      ></app-input>
+
+      <button
+        class="500 rounded-md bg-indigo-500 p-3 text-white transition-all hover:bg-indigo-600 disabled:bg-indigo-300"
+        type="submit"
+        [disabled]="!registerForm.valid"
+      >
+        Register
+      </button>
+    </form>
+
+    <p class="text-sm text-gray-800">
+      Already have an account?
+      <a class="text-indigo-500" [routerLink]="['/login']">Login here.</a>
+    </p>
+  </div>
+</section>
