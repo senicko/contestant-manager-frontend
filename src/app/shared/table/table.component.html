@@ -1,0 +1,71 @@
+<table class="w-full table-fixed border-separate border-spacing-0">
+  <thead>
+    <tr class="bg-gray-50">
+      <th
+        (click)="sort(header.accessor)"
+        *ngFor="let header of headers"
+        class="border-y border-gray-200 p-4 text-left font-normal text-gray-500 first:rounded-tl-md first:border-l last:rounded-tr-md last:border-r"
+      >
+        <div class="flex items-center gap-2">
+          {{ header.label }}
+          <img
+            *ngIf="
+              orderState?.accessor === header.accessor &&
+              orderState?.direction === 'asc'
+            "
+            class="w-6 select-none"
+            src="assets/chevron-up.svg"
+          />
+          <img
+            *ngIf="
+              orderState?.accessor === header.accessor &&
+              orderState?.direction === 'desc'
+            "
+            class="w-6 select-none"
+            src="assets/chevron-down.svg"
+          />
+        </div>
+      </th>
+      <th
+        *ngIf="actions.length !== 0"
+        class="border-y border-gray-200 p-4 text-left font-normal text-gray-500 first:rounded-tl-md first:border-l last:rounded-tr-md last:border-r"
+      >
+        Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      (click)="rowClick.emit(row)"
+      *ngFor="let row of sortedData ?? data; index as i"
+      class="group"
+    >
+      <td
+        #field
+        *ngFor="let header of headers"
+        class="border-b p-4 text-gray-600 first:border-l last:border-r group-last:first:rounded-bl-md group-last:last:rounded-br-md"
+      >
+        <span *ngIf="header.accessor">
+          {{
+            header.processFn
+              ? header.processFn(row[header.accessor])
+              : row[header.accessor]
+          }}
+        </span>
+      </td>
+      <ng-container *ngIf="actions.length !== 0">
+        <td
+          class="flex gap-2 border-b p-4 text-gray-600 first:border-l last:border-r group-last:first:rounded-bl-md group-last:last:rounded-br-md"
+        >
+          <button
+            (click)="action.handler(row)"
+            *ngFor="let action of actions"
+            class="rounded-md border border-gray-200 p-2"
+          >
+            {{ action.name }}
+          </button>
+        </td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>

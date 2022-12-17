@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, UserRegisterData } from 'src/app/auth.service';
 
@@ -9,12 +15,16 @@ import { AuthService, UserRegisterData } from 'src/app/auth.service';
 })
 export class RegisterPageComponent {
   registerForm = this.fb.nonNullable.group({
-    name: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
-    ],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/(?=.*[a-zA-Z])(?=.*\d)/),
+      ],
+    ],
   });
 
   controls: string[];
@@ -43,8 +53,13 @@ export class RegisterPageComponent {
   handleRegister() {
     if (!this.registerForm.valid) return;
 
-    this.authService
+    const res = this.authService
       .register(this.registerForm.value as UserRegisterData)
-      .subscribe(() => this.router.navigate(['']));
+      .subscribe({
+        next: () => this.router.navigate(['']),
+        error: (error) => alert(error.error),
+      });
+
+    console.log(res);
   }
 }

@@ -1,0 +1,28 @@
+<div
+  class="pointer-events-none fixed flex h-full w-full flex-col-reverse gap-4 p-8"
+>
+  <div
+    class="w-fit rounded-md border p-4 shadow-lg"
+    *ngFor="let notification of notifications"
+    [ngClass]="{
+      'border-green-500 bg-green-50': notification.type === 'success',
+      'border-red-500 bg-red-50': notification.type === 'error'
+    }"
+  >
+    <p
+      [ngClass]="{
+        'text-green-900': notification.type === 'success',
+        'text-red-900': notification.type === 'error'
+      }"
+    >
+      {{ notification.message }}
+    </p>
+    <span
+      [ngClass]="{
+        'text-sm text-green-600': notification.type === 'success',
+        'text-red-600': notification.type === 'error'
+      }"
+      >{{ notification.createdAt }}</span
+    >
+  </div>
+</div>

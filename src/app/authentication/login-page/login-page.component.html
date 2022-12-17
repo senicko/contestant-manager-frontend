@@ -7,26 +7,46 @@
       (ngSubmit)="handleLogin()"
       class="flex w-full flex-col gap-8"
     >
-      <app-input
-        [group]="loginForm"
-        controlName="email"
-        placeholder="Enter your email address"
-        label="Email address"
-        type="email"
-        [hasError]="checkError('email')"
-      ></app-input>
+      <div class="flex flex-col gap-1" [formGroup]="loginForm">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-800" for="email">Email</label>
+          <span *ngIf="checkError('email')" class="text-red-500">
+            Invalid input
+          </span>
+        </div>
+        <input
+          formControlName="email"
+          class="rounded-md border border-gray-200 p-3 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-red-200': checkError('email')
+          }"
+          id="email"
+          type="email"
+          placeholder="Enter your email address"
+        />
+      </div>
 
-      <app-input
-        [group]="loginForm"
-        controlName="password"
-        placeholder="Enter your password"
-        label="Password"
-        type="password"
-        [hasError]="checkError('password')"
-      ></app-input>
+      <div class="flex flex-col gap-1" [formGroup]="loginForm">
+        <div class="flex items-center justify-between">
+          <label class="text-gray-800" for="password">Password</label>
+          <span *ngIf="checkError('password')" class="text-red-500">
+            Invalid input
+          </span>
+        </div>
+        <input
+          formControlName="password"
+          class="rounded-md border border-gray-200 p-3 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+          [ngClass]="{
+            'border-red-500 ring-2 ring-red-200': checkError('password')
+          }"
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+      </div>
 
       <button
-        class="500 rounded-md bg-indigo-500 p-3 text-white transition-all hover:bg-indigo-600 disabled:bg-indigo-300"
+        class="500 rounded-md bg-blue-500 p-3 text-white transition-all hover:bg-blue-600 disabled:bg-blue-300"
         type="submit"
         [disabled]="!loginForm.valid"
       >
@@ -36,7 +56,7 @@
 
     <p class="text-sm text-gray-800">
       Don't have an account yet?
-      <a class="text-indigo-500" [routerLink]="['/register']">Register here.</a>
+      <a class="text-blue-500" [routerLink]="['/register']">Register here.</a>
     </p>
   </div>
 </section>

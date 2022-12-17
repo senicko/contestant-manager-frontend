@@ -1,20 +1,34 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { SharedModule } from '../shared/shared.module';
-import { ContestantListComponent } from './contestant-list/contestant-list.component';
-import { RouterModule } from '@angular/router';
-import { NewContestantComponent } from './new-contestant/new-contestant.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
+import { ContestCreateComponent } from './contest-create/contest-create.component';
+import { ContestEditComponent } from './contest-edit/contest-edit.component';
+import { ContestSummaryComponent } from './contest-summary/contest-summary.component';
+import { ContestantCreateComponent } from './contestant-create/contestant-create.component';
+import { ContestantEditComponent } from './contestant-edit/contestant-edit.component';
+import { ContestantSummaryComponent } from './contestants-summary/contestant-summary.component';
+import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
+import { NotificationQueueComponent } from './notification-queue/notification-queue.component';
 
 @NgModule({
   declarations: [
-    HomeComponent,
-    ContestantListComponent,
-    NewContestantComponent,
-    DashboardComponent,
+    DashboardLayoutComponent,
+    ContestantCreateComponent,
+    ContestantEditComponent,
+    ContestantSummaryComponent,
+    ContestCreateComponent,
+    ContestEditComponent,
+    ContestSummaryComponent,
+    NotificationQueueComponent,
   ],
-  imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    RouterModule,
+    ReactiveFormsModule,
+    RouterModule,
+  ],
 })
 export class DashboardModule {}

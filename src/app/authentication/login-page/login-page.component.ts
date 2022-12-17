@@ -39,8 +39,9 @@ export class LoginPageComponent {
   handleLogin() {
     if (!this.loginForm.valid) return;
 
-    this.authService
-      .login(this.loginForm.value as UserLoginData)
-      .subscribe(() => this.router.navigate(['']));
+    this.authService.login(this.loginForm.value as UserLoginData).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: (error) => alert(error.error),
+    });
   }
 }

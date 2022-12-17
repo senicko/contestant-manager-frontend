@@ -1,0 +1,64 @@
+<div *ngIf="contest" class="flex flex-col gap-8">
+  <form
+    (ngSubmit)="editContest()"
+    [formGroup]="contestEditForm"
+    class="flex w-full flex-col gap-4"
+  >
+    <div [formGroup]="contestEditForm" class="flex flex-col gap-1">
+      <div class="flex items-center justify-between">
+        <label class="text-gray-800" for="name">Name</label>
+        <span *ngIf="checkError('name')" class="text-red-500">
+          Invalid input
+        </span>
+      </div>
+      <input
+        [ngClass]="{
+          'border-red-500 ring-2 ring-red-200': checkError('name')
+        }"
+        class="rounded-md border border-gray-200 p-3 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        formControlName="name"
+        id="name"
+        placeholder="Enter contest name"
+        type="text"
+      />
+    </div>
+
+    <button
+      [disabled]="!contestEditForm.valid"
+      class="500 w-fit rounded-md bg-blue-500 p-3 text-white transition-all hover:bg-blue-600 disabled:bg-blue-300"
+      type="submit"
+    >
+      Update
+    </button>
+  </form>
+  <app-divider></app-divider>
+  <form (ngSubmit)="assignContestant()" [formGroup]="contestantAssignForm">
+    <label>Player</label>
+    <select formControlName="id" id="" name="">
+      <option
+        *ngFor="let contestant of availableContestants"
+        [value]="contestant.id"
+      >
+        {{ contestant.name }}
+      </option>
+    </select>
+    <button type="submit">Assign</button>
+  </form>
+  <div
+    class="flex flex-col gap-8 rounded-md border border-gray-200 bg-white p-4 shadow-sm"
+  >
+    <span
+      *ngIf="contest.contestants.length === 0; else list"
+      class="rounded-md border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600"
+    >
+      Nobody was assigned to this contest!
+    </span>
+    <ng-template #list>
+      <app-table
+        [actions]="actions"
+        [data]="contest.contestants"
+        [headers]="headers"
+      ></app-table>
+    </ng-template>
+  </div>
+</div>

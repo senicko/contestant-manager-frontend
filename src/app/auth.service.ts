@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, firstValueFrom, of, tap } from 'rxjs';
 
 export type User = {
   id: number;
@@ -29,11 +29,9 @@ export class AuthService {
    * @returns created user
    */
   register(data: UserRegisterData) {
-    return this.http
-      .post<User>('http://localhost:3000/register', data, {
-        withCredentials: true,
-      })
-      .pipe(tap((user) => this.user.next(user)));
+    return this.http.post<User>('http://localhost:3000/register', data, {
+      withCredentials: true,
+    });
   }
 
   /**
@@ -41,17 +39,24 @@ export class AuthService {
    * @param data user credentials
    */
   login(data: UserLoginData) {
-    return this.http
-      .post<User>('http://localhost:3000/login', data, {
+    const response = this.http.post<User>('http://localhost:3000/login', data, {
+      withCredentials: true,
+    });
+
+    response.subscribe((user) => this.user.next(user));
+
+    return response;
+  }
+
+  /**
+   * Logs out.
+   */
+  async logout() {
+    await firstValueFrom(
+      this.http.post(`http://localhost:3000/logout`, null, {
         withCredentials: true,
       })
-      .pipe(
-        tap((user) => this.user.next(user)),
-        catchError(() => {
-          this.user.next(null);
-          return of(this.user.value);
-        })
-      );
+    );
   }
 
   /**
